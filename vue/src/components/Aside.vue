@@ -43,11 +43,17 @@
       </svg>
       <span>读者管理</span>
     </el-menu-item>
-    <el-menu-item index="/book" v-if="user.role == 1" >
+    <el-menu-item index="/bookManage" v-if="user.role == 1" >
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#iconbook "></use>
       </svg>
       <span>书籍管理</span>
+    </el-menu-item>
+    <el-menu-item index="/bookinstance" v-if="user.role == 1" >
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconbook "></use>
+      </svg>
+      <span>书本管理</span>
     </el-menu-item>
     <el-menu-item index="/book" v-if="user.role == 2">
       <svg class="icon" aria-hidden="true">
@@ -55,22 +61,22 @@
       </svg>
       <span>图书查询</span>
     </el-menu-item>
-    <el-menu-item index="/lendrecord" v-if="user.role == 1">
+    <el-menu-item index="/lendrecord">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#iconlend-record "></use>
       </svg>
-      <span>借阅管理</span>
-    </el-menu-item>
-    <el-menu-item index="/lendrecord" v-if="user.role == 2">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconlend-record"></use>
-      </svg>
       <span>借阅信息</span>
     </el-menu-item>
-    <el-menu-item index="/bookwithuser" >
-      <el-icon><grid /></el-icon>
-      <span>借阅状态</span>
-    </el-menu-item>
+<!--    <el-menu-item index="/f" v-if="user.role == 2">-->
+<!--      <svg class="icon" aria-hidden="true">-->
+<!--        <use xlink:href="#iconlend-record"></use>-->
+<!--      </svg>-->
+<!--      <span>借阅信息</span>-->
+<!--    </el-menu-item>-->
+<!--    <el-menu-item index="/bookwithuser" >-->
+<!--      <el-icon><grid /></el-icon>-->
+<!--      <span>借阅状态</span>-->
+<!--    </el-menu-item>-->
   </el-menu>
 
 </div>

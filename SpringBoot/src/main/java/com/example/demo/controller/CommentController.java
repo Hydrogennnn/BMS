@@ -5,63 +5,54 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.commom.Result;
-import com.example.demo.entity.Book;
-import com.example.demo.entity.BookInstance;
-import com.example.demo.mapper.BookMapper;
+import com.example.demo.entity.Comment;
+import com.example.demo.mapper.CommentMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book")
-public class BookController {
+@RequestMapping("/comment")
+public class CommentController {
     @Resource
-    BookMapper bookMapper;
+    CommentMapper commentMapper;
 
     @PostMapping
-    public Result<?> save(@RequestBody Book book){
-        bookMapper.insert(book);
+    public Result<?> save(@RequestBody Comment comment){
+        commentMapper.insert(comment);
         return Result.success();
     }
     @PutMapping
-    public  Result<?> update(@RequestBody Book book){
-        bookMapper.updateById(book);
+    public  Result<?> update(@RequestBody Comment comment){
+        commentMapper.updateById(comment);
         return Result.success();
     }
 
     //    批量删除
     @PostMapping("/deleteBatch")
     public  Result<?> deleteBatch(@RequestBody List<Integer> ids){
-        bookMapper.deleteBatchIds(ids);
+        commentMapper.deleteBatchIds(ids);
         return Result.success();
     }
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id){
-        bookMapper.deleteById(id);
+        commentMapper.deleteById(id);
         return Result.success();
     }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search1,
-                              @RequestParam(defaultValue = "") String search2,
-                              @RequestParam(defaultValue = "") String search3)
-    {
-        LambdaQueryWrapper<Book> wrappers = Wrappers.<Book>lambdaQuery();
+                              @RequestParam(defaultValue = "") String search2){
+        LambdaQueryWrapper<Comment> wrappers = Wrappers.<Comment>lambdaQuery();
         if(StringUtils.isNotBlank(search1)){
-            wrappers.like(Book::getIsbn,search1);
+            wrappers.like(Comment::getBookId,search1);
         }
-        if(StringUtils.isNotBlank(search2)) {
-            wrappers.like(Book::getName, search2);
+        if(StringUtils.isNotBlank(search2)){
+            wrappers.like(Comment::getContent, search2);
         }
-        if(StringUtils.isNotBlank(search3)){
-            wrappers.like(Book::getAuthor, search3);
-        }
-
-        Page<Book> bookPage =bookMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
-
-
-        return Result.success(bookPage);
+        Page<Comment> commentPage =commentMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
+        return Result.success(commentPage);
     }
 }

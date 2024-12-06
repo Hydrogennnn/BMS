@@ -14,9 +14,9 @@ const routes = [
         component:() => import("@/views/User")
       },
       {
-        path: 'book',
-        name: 'book',
-        component: () => import("@/views/Book")
+        path: 'bookManage',
+        name: 'bookManage',
+        component: () => import("@/views/BookManage")
       },
       {
         path: 'person',
@@ -42,6 +42,11 @@ const routes = [
         path: 'bookwithuser',
         name: 'BookWithUser',
         component: () => import("@/views/BookWithUser")
+      },
+      {
+        path: 'bookinstance',
+        name: 'BookInstance',
+        component: () => import("@/views/BookInstanceManage")
       }
     ]
   },

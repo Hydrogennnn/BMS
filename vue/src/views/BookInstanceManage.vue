@@ -26,20 +26,20 @@
         <el-form-item>
           <el-button size="mini"  type="danger" @click="clear">重置</el-button>
         </el-form-item>
-        <el-form-item style="float: right" v-if="numOfOutDataBook!=0">
-          <el-popconfirm
-              confirm-button-text="查看"
-              cancel-button-text="取消"
-              :icon="InfoFilled"
-              icon-color="red"
-              title="您有图书已逾期，请尽快归还"
-              @confirm="toLook"
-          >
-            <template #reference>
-              <el-button  type="warning">逾期通知</el-button>
-            </template>
-          </el-popconfirm>
-        </el-form-item>
+<!--        <el-form-item style="float: right" v-if="numOfOutDataBook!=0">-->
+<!--          <el-popconfirm-->
+<!--              confirm-button-text="查看"-->
+<!--              cancel-button-text="取消"-->
+<!--              :icon="InfoFilled"-->
+<!--              icon-color="red"-->
+<!--              title="您有图书已逾期，请尽快归还"-->
+<!--              @confirm="toLook"-->
+<!--          >-->
+<!--            <template #reference>-->
+<!--              <el-button  type="warning">逾期通知</el-button>-->
+<!--            </template>-->
+<!--          </el-popconfirm>-->
+<!--        </el-form-item>-->
       </el-form>
     </div>
     <!-- 按钮-->
@@ -57,18 +57,9 @@
                        type="selection"
                        width="55">
       </el-table-column>
-      <el-table-column prop="isbn" label="图书编号" sortable />
-      <el-table-column prop="name" label="图书名称" />
-      <el-table-column prop="price" label="价格" sortable/>
-      <el-table-column prop="author" label="作者" />
-      <el-table-column prop="publisher" label="出版社" />
-      <el-table-column prop="createTime" label="出版时间" sortable/>
-      <el-table-column prop="status" label="状态">
-        <template v-slot="scope">
-          <el-tag v-if="scope.row.status == 0" type="warning">已借阅</el-tag>
-          <el-tag v-else type="success">未借阅</el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column prop="barcode" label="书本编号（条形码）" sortable />
+      <el-table-column prop="bookName" label="图书名称" />
+      <el-table-column label="是否归还" prop="status" />
       <el-table-column fixed="right" label="操作" >
         <template v-slot="scope">
           <el-button  size="mini" @click ="handleEdit(scope.row)" v-if="user.role == 1">修改</el-button>
@@ -86,7 +77,7 @@
         </template>
       </el-table-column>
     </el-table>
-<!--测试,通知对话框-->
+    <!--测试,通知对话框-->
     <el-dialog
         v-model="dialogVisible3"
         v-if="numOfOutDataBook!=0"
@@ -94,12 +85,12 @@
         width="50%"
         :before-close="handleClose"
     >
-        <el-table :data="outDateBook" style="width: 100%">
-          <el-table-column prop="isbn" label="图书编号" />
-          <el-table-column prop="bookName" label="书名" />
-          <el-table-column prop="lendtime" label="借阅日期" />
-          <el-table-column prop="deadtime" label="截至日期" />
-        </el-table>
+      <el-table :data="outDateBook" style="width: 100%">
+        <el-table-column prop="isbn" label="图书编号" />
+        <el-table-column prop="bookName" label="书名" />
+        <el-table-column prop="lendtime" label="借阅日期" />
+        <el-table-column prop="deadtime" label="截至日期" />
+      </el-table>
 
       <template #footer>
       <span class="dialog-footer">
@@ -139,10 +130,19 @@
           <el-form-item label="出版社">
             <el-input style="width: 80%" v-model="form.publisher"></el-input>
           </el-form-item>
-          <el-form-item label="出版时间">
+          <el-form-item label="出版时间" v-model="form.publishYear">
             <div>
-              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.createTime" ></el-date-picker>
+              <el-date-picker value-format="YYYY-MM-DD" type="date" style=" width: 80%" clearable v-model="form.publishYear" ></el-date-picker>
             </div>
+          </el-form-item>
+          <el-form-item label="简介" >
+            <el-input style="width: 80%" v-model="form.intro"></el-input>
+          </el-form-item>
+          <el-form-item label="页数">
+            <el-input style="width: 80%" v-model="form.pages"></el-input>
+          </el-form-item>
+          <el-form-item label="封面图片链接">
+            <el-input style="width: 80%" v-model="form.imgHref"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -171,15 +171,24 @@
           <el-form-item label="出版社">
             <el-input style="width: 80%" v-model="form.publisher"></el-input>
           </el-form-item>
-          <el-form-item label="出版时间">
+          <el-form-item label="出版时间" v-model="form.publishYear">
             <div>
-              <el-date-picker value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable v-model="form.createTime" ></el-date-picker>
+              <el-date-picker value-format="YYYY-MM" type="date" style="width: 80%" clearable v-model="form.publishYear" ></el-date-picker>
             </div>
+          </el-form-item>
+          <el-form-item label="简介" >
+            <el-input style="width: 80%" v-model="form.intro"></el-input>
+          </el-form-item>
+          <el-form-item label="页数">
+            <el-input style="width: 80%" v-model="form.pages"></el-input>
+          </el-form-item>
+          <el-form-item label="封面图片链接">
+            <el-input style="width: 80%" v-model="form.imgHref"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="dialogVisible2 = false">取 消</el-button>
         <el-button type="primary" @click="save">确 定</el-button>
       </span>
         </template>
@@ -201,7 +210,7 @@ export default {
   },
   name: 'Book',
   methods: {
-  // (this.isbnArray.indexOf(scope.row.isbn)) == -1
+    // (this.isbnArray.indexOf(scope.row.isbn)) == -1
     handleSelectionChange(val){
       this.ids = val.map(v =>v.id)
     },
@@ -224,51 +233,17 @@ export default {
     load(){
       this.numOfOutDataBook =0;
       this.outDateBook =[];
-      request.get("/book",{
+      request.get("/bookinstance",{
         params:{
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search1: this.search1,
-          search2: this.search2,
-          search3: this.search3,
+          search1: this.search1
         }
       }).then(res =>{
         console.log(res)
         this.tableData = res.data.records
         this.total = res.data.total
       })
-    //
-      if(this.user.role == 2){
-        request.get("/bookwithuser",{
-          params:{
-            pageNum: "1",
-            pageSize: this.total,
-            search1: "",
-            search2: "",
-            search3: this.user.id,
-          }
-        }).then(res =>{
-          console.log(res)
-          this.bookData = res.data.records
-          this.number = this.bookData.length;
-          var nowDate = new Date();
-          for(let i=0; i< this.number; i++){
-            this.isbnArray[i] = this.bookData[i].isbn;
-            let dDate = new Date(this.bookData[i].deadtime);
-            if(dDate < nowDate){
-              this.outDateBook[this.numOfOutDataBook] = {
-                isbn:this.bookData[i].isbn,
-                bookName : this.bookData[i].bookName,
-                deadtime : this.bookData[i].deadtime,
-                lendtime : this.bookData[i].lendtime,
-              };
-              this.numOfOutDataBook = this.numOfOutDataBook + 1;
-            }
-          }
-          console.log("in load():" +this.numOfOutDataBook );
-        })
-      }
-      //
     },
     clear(){
       this.search1 = ""
@@ -310,7 +285,7 @@ export default {
         else {
           ElMessage.error(res.msg)
         }
-      //
+        //
         this.form3.isbn = isbn
         this.form3.readerId = this.user.id
         let endDate = moment(new Date()).format("yyyy-MM-DD HH:mm:ss")
@@ -334,7 +309,7 @@ export default {
           })
 
         })
-      //
+        //
       })
       // this.form3.isbn = isbn
       // this.form3.readerId = this.user.id
@@ -497,8 +472,14 @@ export default {
       isbnArray:[],
       outDateBook:[],
       numOfOutDataBook: 0,
-      dialogVisible3 : true,
     }
   },
 }
 </script>
+<style>
+.text-ellipsis .cell{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>

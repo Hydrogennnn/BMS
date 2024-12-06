@@ -43,10 +43,11 @@
                        type="selection"
                        width="55">
       </el-table-column>
-      <el-table-column prop="isbn" label="图书编号" sortable />
-      <el-table-column prop="bookname" label="图书名称" />
+      <el-table-column prop="barcode" label="图书编号" sortable />
+      <el-table-column prop="bookName" label="图书名称" />
       <el-table-column prop="readerId" label="读者编号" sortable/>
       <el-table-column prop="lendTime" label="借阅时间" sortable/>
+      <el-table-column prop="deadline" label="截止时间" sortable/>
       <el-table-column prop="returnTime" label="归还时间" sortable/>
       <el-table-column prop="status" label="状态" >
         <template v-slot="scope">
@@ -90,15 +91,24 @@
             >
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="归还时间" >
+          <el-form-item label="截止时间" >
 
+            <el-date-picker
+                v-model="form.deadline"
+                type="datetime"
+                value-format="YYYY-MM-DD HH:mm:ss",
+            >
+            </el-date-picker>
+
+          </el-form-item>
+          <el-form-item label="归还时间">
             <el-date-picker
                 v-model="form.returnTime"
                 type="datetime"
                 value-format="YYYY-MM-DD HH:mm:ss"
+                :disabled="true"
             >
             </el-date-picker>
-
           </el-form-item>
           <el-form-item label="是否归还" prop="status">
             <el-radio v-model="form.status" label="0">未归还</el-radio>
@@ -108,7 +118,7 @@
         <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save(form.isbn)">确 定</el-button>
+        <el-button type="primary" @click="save(form.barcode)">确 定</el-button>
       </span>
         </template>
       </el-dialog>
@@ -151,56 +161,79 @@ export default defineComponent({
       })
     },
     load(){
-      request.get("/LendRecord",{
-        params:{
-          pageNum: this.currentPage,
-          pageSize: this.pageSize,
-          search1: this.search1,
-          search2: this.search2,
-          search3: this.search3
-        }
-      }).then(res =>{
-        console.log(res)
-        this.tableData = res.data.records
-        this.total = res.data.total
-      })
-    },
-    save(isbn){
-      //ES6语法
-      //地址,但是？IP与端口？+请求参数
-      // this.form?这是自动保存在form中的，虽然显示时没有使用，但是这个对象中是有它的
-      if(this.form.isbn){
-        request.post("/LendRecord" + isbn, this.form).then(res => {
-          console.log(res)
-          if (res.code == 0) {
-            ElMessage({
-              message: '新增成功',
-              type: 'success',
-            })
-          } else {
-            ElMessage.error(res.msg)
+      const userData = sessionStorage.getItem("user");
+      const user = JSON.parse(userData);
+      if(user.role == 1){
+        request.get("/LendRecord",{
+          params:{
+            pageNum: this.currentPage,
+            pageSize: this.pageSize,
+            search1: this.search1,
+            search2: this.search2,
+            search3: this.search3
           }
-
-          this.load() //不知道为啥，更新必须要放在这里面
-          this.dialogVisible = false
+        }).then(res =>{
+          console.log(res)
+          this.tableData = res.data.records
+          this.total = res.data.total
         })
       }
       else {
-        request.put("/LendRecord/" + isbn, this.form).then(res => {
-          console.log(res)
-          if (res.code == 0) {
-            ElMessage({
-              message: '更新成功',
-              type: 'success',
-            })
-          } else {
-            ElMessage.error(res.msg)
+        request.get("/LendRecord/reader",{
+          params:{
+            readerId: user.id,
+            pageNum: this.currentPage,
+            pageSize: this.pageSize
+          },
+          //  新增content-type头部属性
+          heads : {
+            'content-type' : 'application/x-www-form-urlencoded'
           }
-
-          this.load() //不知道为啥，更新必须要放在这里面
-          this.dialogVisible2 = false
+        }).then(res =>{
+          console.log(res)
+          this.tableData = res.data.records
+          this.total = res.data.total
         })
       }
+
+
+    },
+    save(barcode){
+      //ES6语法
+      //地址,但是？IP与端口？+请求参数
+      // this.form?这是自动保存在form中的，虽然显示时没有使用，但是这个对象中是有它的
+      // if(this.form.isbn){
+      //   request.post("/LendRecord" + isbn, this.form).then(res => {
+      //     console.log(res)
+      //     if (res.code == 0) {
+      //       ElMessage({
+      //         message: '修改成功',
+      //         type: 'success',
+      //       })
+      //     } else {
+      //       ElMessage.error(res.msg)
+      //     }
+      //
+      //     this.load() //不知道为啥，更新必须要放在这里面
+      //     this.dialogVisible = false
+      //   })
+      // }
+      console.log(this.form)
+      request.put("/LendRecord/return", this.form).then(res => {
+        console.log(res)
+        if (res.code == 0) {
+          ElMessage({
+            message: '更新成功',
+            type: 'success',
+          })
+        } else {
+          ElMessage.error(res.msg)
+        }
+
+        this.load() //不知道为啥，更新必须要放在这里面
+        this.dialogVisible = false
+      })
+
 
     },
     clear(){
@@ -211,7 +244,17 @@ export default defineComponent({
     },
     handleEdit(row){
       this.form = JSON.parse(JSON.stringify(row))
+      this.form.returnTime = this.formatDate(this.current_date)
       this.dialogVisible = true
+    },
+    formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     handleSizeChange(pageSize){
       this.pageSize = pageSize
@@ -283,7 +326,8 @@ export default defineComponent({
       tableData: [],
       user:{},
       dialogVisible : false,
-      dialogVisible2: false
+      dialogVisible2: false,
+      current_date: new Date()
 
     }
   },

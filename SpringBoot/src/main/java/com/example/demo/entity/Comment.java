@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 
-@TableName("Comment")
+@TableName("comment")
 @Data
 
 public class Comment{

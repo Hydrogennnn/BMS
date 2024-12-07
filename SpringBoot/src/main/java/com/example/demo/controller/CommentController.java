@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.commom.Result;
+import com.example.demo.entity.Book;
 import com.example.demo.entity.Comment;
 import com.example.demo.mapper.CommentMapper;
 import org.springframework.web.bind.annotation.*;
@@ -40,18 +41,22 @@ public class CommentController {
         commentMapper.deleteById(id);
         return Result.success();
     }
+    @GetMapping("/abook")
+    public Result<?> getPageByBookId(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam Long bookId){
+        LambdaQueryWrapper<Comment> wrappers = Wrappers.<Comment>lambdaQuery();
+        wrappers.eq(Comment::getBookId, bookId);
+        Page<Comment> commentPage =commentMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
+        return Result.success(commentPage);
+    }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1,
-                              @RequestParam(defaultValue = "") String search2){
+                              @RequestParam Long user_id,
+                              @RequestParam Long book_id){
         LambdaQueryWrapper<Comment> wrappers = Wrappers.<Comment>lambdaQuery();
-        if(StringUtils.isNotBlank(search1)){
-            wrappers.like(Comment::getBookId,search1);
-        }
-        if(StringUtils.isNotBlank(search2)){
-            wrappers.like(Comment::getContent, search2);
-        }
+
         Page<Comment> commentPage =commentMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
         return Result.success(commentPage);
     }

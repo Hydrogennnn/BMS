@@ -67,6 +67,12 @@
       </svg>
       <span>借阅信息</span>
     </el-menu-item>
+    <el-menu-item index="/lendrecord" v-if="user.role == 1">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>测试信息</span>
+    </el-menu-item>
 <!--    <el-menu-item index="/f" v-if="user.role == 2">-->
 <!--      <svg class="icon" aria-hidden="true">-->
 <!--        <use xlink:href="#iconlend-record"></use>-->

@@ -8,6 +8,7 @@ import com.example.demo.commom.Result;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BookInstance;
 import com.example.demo.mapper.BookMapper;
+import com.example.demo.mapper.CommentMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -60,7 +61,6 @@ public class BookController {
         }
 
         Page<Book> bookPage =bookMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
-
 
         return Result.success(bookPage);
     }

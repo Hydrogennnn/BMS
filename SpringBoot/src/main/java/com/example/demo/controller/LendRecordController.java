@@ -46,7 +46,7 @@ public class LendRecordController {
         lendRecordMapper.UpdBookInstanceStatus(lendRecord.getBookinstanceId(), lendRecord.getStatus());
         return Result.success();
     }
-    @PutMapping("/borrow")
+    @PostMapping("/borrow")
     public  Result<?> BookBorrow(@RequestBody BookInstance bookInstance, Long user_id){
         LendRecord lendRecord = new LendRecord();
         lendRecord.setLendTime(LocalDateTime.now());
@@ -55,7 +55,7 @@ public class LendRecordController {
         lendRecord.setDeadline(LocalDateTime.now().plusMonths(1));
         lendRecord.setReaderId(user_id);
 
-        lendRecordMapper.updateById(lendRecord);
+        lendRecordMapper.insert(lendRecord);
         lendRecordMapper.UpdBookInstanceStatus(lendRecord.getBookinstanceId(), lendRecord.getStatus());
         return Result.success();
     }

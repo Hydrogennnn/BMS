@@ -36,7 +36,7 @@ const routes = [
       {
         path:'dashboard',
         name:'Dashboard',
-        component:() => import("@/views/Dashboard")
+        component:() => import("@/views/MyDashboard")
       },
       {
         path: 'bookwithuser',
@@ -47,6 +47,11 @@ const routes = [
         path: 'bookinstance',
         name: 'BookInstance',
         component: () => import("@/views/BookInstanceManage")
+      },
+      {
+        path: 'test',
+        name: 'Test',
+        component: () => import("@/views/test")
       }
     ]
   },

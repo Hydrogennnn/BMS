@@ -47,13 +47,18 @@ public class NewsController {
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1)
+                              @RequestParam(defaultValue = "") String search1,
+                              @RequestParam(defaultValue = "") String search2)
     {
 
         LambdaQueryWrapper<News> wrappers = Wrappers.<News>lambdaQuery();
         if(StringUtils.isNotBlank(search1)){
             wrappers.like(News::getTitle,search1);
         }
+        if(StringUtils.isNotBlank(search2)){
+            wrappers.like(News::getId, search2);
+        }
+
         Page<News> newsPage =newsMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
 
 

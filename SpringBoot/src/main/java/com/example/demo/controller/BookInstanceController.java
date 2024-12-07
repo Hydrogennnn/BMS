@@ -47,7 +47,7 @@ public class BookInstanceController {
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1 )
+                              @RequestParam(defaultValue = "") String search1)
     {
         LambdaQueryWrapper<BookInstance> wrappers = Wrappers.<BookInstance>lambdaQuery();
         if(StringUtils.isNotBlank(search1)){

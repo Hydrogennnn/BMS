@@ -47,16 +47,20 @@ public class NoticeController {
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1)
+                              @RequestParam(defaultValue = "") String search1,
+                              @RequestParam(defaultValue = "") String search2)
     {
 
         LambdaQueryWrapper<Notice> wrappers = Wrappers.<Notice>lambdaQuery();
         if(StringUtils.isNotBlank(search1)){
             wrappers.like(Notice::getTitle,search1);
         }
+        if(StringUtils.isNotBlank(search2)){
+            wrappers.like(Notice::getId, search2);
+        }
         Page<Notice> noticePage =noticeMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
 
-
+    
         return Result.success(noticePage);
     }
 }

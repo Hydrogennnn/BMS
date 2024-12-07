@@ -47,11 +47,6 @@ const routes = [
         path: 'bookinstance',
         name: 'BookInstance',
         component: () => import("@/views/BookInstanceManage")
-      },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import("@/views/test")
       }
     ]
   },

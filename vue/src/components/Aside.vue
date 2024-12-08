@@ -73,6 +73,18 @@
       </svg>
       <span>测试信息</span>
     </el-menu-item>
+    <el-menu-item index="/news">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>资源动态</span>
+    </el-menu-item>
+    <el-menu-item index="/notice">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>最新公告</span>
+    </el-menu-item>
 <!--    <el-menu-item index="/f" v-if="user.role == 2">-->
 <!--      <svg class="icon" aria-hidden="true">-->
 <!--        <use xlink:href="#iconlend-record"></use>-->
@@ -89,6 +101,7 @@
 </template>
 
 <script>
+
 
 
 

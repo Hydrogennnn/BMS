@@ -47,6 +47,16 @@ const routes = [
         path: 'bookinstance',
         name: 'BookInstance',
         component: () => import("@/views/BookInstanceManage")
+      },
+      {
+        path: 'news',
+        name: 'News',
+        component: () => import("@/views/News")
+      },
+      {
+        path: 'notice',
+        name: 'Notice',
+        component: () => import("@/views/Notice")
       }
     ]
   },
@@ -68,5 +78,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
 
 export default router

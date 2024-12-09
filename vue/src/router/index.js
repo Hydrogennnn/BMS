@@ -57,7 +57,18 @@ const routes = [
         path: 'notice',
         name: 'Notice',
         component: () => import("@/views/Notice")
-      }
+      },
+      {
+        path: '/book',
+        name: 'Book',
+        component: () => import("@/views/Book")
+      },
+      {
+        path: '/bookDetail',
+        name: 'BookDetail',
+        component: () => import("@/views/BookDetail")
+      },
+
     ]
   },
   {
@@ -70,7 +81,6 @@ const routes = [
     name: 'Register',
     component: () => import("@/views/Register")
   },
-
 
 ]
 

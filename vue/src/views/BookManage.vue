@@ -57,6 +57,7 @@
                        type="selection"
                        width="55">
       </el-table-column>
+      <el-table-column prop="id" label="图书ID" sortable/>
       <el-table-column prop="isbn" label="图书编号" sortable />
       <el-table-column prop="name" label="图书名称" />
       <el-table-column prop="price" label="价格" sortable/>

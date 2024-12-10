@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.commom.Result;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BookInstance;
+import com.example.demo.entity.Notice;
 import com.example.demo.mapper.BookMapper;
 import com.example.demo.mapper.CommentMapper;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,17 @@ public class BookController {
     public Result<?> delete(@PathVariable Long id){
         bookMapper.deleteById(id);
         return Result.success();
+    }
+    @GetMapping("/{id}")
+    public Result<?> getABook(@PathVariable Long id)
+    {
+        System.out.println(id);
+        LambdaQueryWrapper<Book> wrappers = Wrappers.<Book>lambdaQuery();
+
+        wrappers.eq(Book::getId, id);
+        List<Book> bookList = bookMapper.selectList(wrappers);
+
+        return Result.success(bookList);
     }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,

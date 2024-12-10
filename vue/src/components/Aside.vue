@@ -67,24 +67,37 @@
       </svg>
       <span>借阅信息</span>
     </el-menu-item>
-    <el-menu-item index="/lendrecord" v-if="user.role == 1">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconlend-record "></use>
-      </svg>
-      <span>测试信息</span>
-    </el-menu-item>
-    <el-menu-item index="/news">
+    <el-menu-item index="/news" v-if="user.role == 2">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#iconlend-record "></use>
       </svg>
       <span>资源动态</span>
     </el-menu-item>
-    <el-menu-item index="/notice">
+    <el-menu-item index="/notice" v-if="user.role == 2">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#iconlend-record "></use>
       </svg>
       <span>最新公告</span>
     </el-menu-item>
+    <el-menu-item index="/newsmanage" v-if="user.role == 1">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>新闻管理</span>
+    </el-menu-item>
+    <el-menu-item index="/noticemanage" v-if="user.role == 1">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>公告管理</span>
+    </el-menu-item>
+    <el-menu-item index="/commentmanage" v-if="user.role == 1">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#iconlend-record "></use>
+      </svg>
+      <span>评论管理</span>
+    </el-menu-item>
+
 <!--    <el-menu-item index="/f" v-if="user.role == 2">-->
 <!--      <svg class="icon" aria-hidden="true">-->
 <!--        <use xlink:href="#iconlend-record"></use>-->

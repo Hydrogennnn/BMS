@@ -8,7 +8,6 @@ import com.example.demo.commom.Result;
 import com.example.demo.entity.News;
 import com.example.demo.entity.NewsPublish;
 import com.example.demo.mapper.NewsMapper;
-import com.example.demo.mapper.NewsPublishMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,12 +18,9 @@ import java.util.List;
 public class NewsController {
     @Resource
     NewsMapper newsMapper;
-//    NewsPublishMapper newsPublishMapper;
     @PostMapping
-    public Result<?> save(@RequestBody News news,
-                          @RequestBody NewsPublish newsPublish){
+    public Result<?> save(@RequestBody News news){
         newsMapper.insert(news);
-       // newsPublishMapper.insert(newsPublish);
         return Result.success();
     }
     @PutMapping
@@ -44,19 +40,25 @@ public class NewsController {
         newsMapper.deleteById(id);
         return Result.success();
     }
+    @GetMapping("/{id}")
+    public Result<?> getaNews(@PathVariable Long id)
+    {
+        LambdaQueryWrapper<News> wrappers = Wrappers.<News>lambdaQuery();
+        wrappers.eq(News::getId, id);
+        List<News> newsList = newsMapper.selectList(wrappers);
+        return Result.success(newsList);
+    }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1,
-                              @RequestParam(defaultValue = "") String search2)
+                              @RequestParam(defaultValue = "") String search1)
     {
 
         LambdaQueryWrapper<News> wrappers = Wrappers.<News>lambdaQuery();
+        System.out.println("search");
         if(StringUtils.isNotBlank(search1)){
+            System.out.println("search1"+search1);
             wrappers.like(News::getTitle,search1);
-        }
-        if(StringUtils.isNotBlank(search2)){
-            wrappers.like(News::getId, search2);
         }
 
         Page<News> newsPage =newsMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);

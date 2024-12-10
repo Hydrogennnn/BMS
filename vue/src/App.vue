@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow-y:hidden;overflow-x: hidden">
+  <div style="overflow-y:auto;overflow-x: auto">
     <router-view />
 <!--    头部-->
 

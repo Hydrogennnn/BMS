@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Update;
 
 
 public interface LendRecordMapper extends BaseMapper<LendRecord> {
-    @Select("SELECT b.name " +
+    @Select("SELECT DISTINCT b.name " +
             "FROM lend_record l " +
             "left join book_instance bi " +
             "on l.bookinstance_id = bi.id " +
@@ -16,7 +16,7 @@ public interface LendRecordMapper extends BaseMapper<LendRecord> {
             "where l.bookinstance_id = #{bookInstanceId} ")
     public String getBookNameByInstanceId(Long bookInstanceId);
 
-    @Select("SELECT bi.barcode " +
+    @Select("SELECT DISTINCT bi.barcode " +
             "FROM lend_record l " +
             "left join book_instance bi " +
             "on l.bookinstance_id = bi.id " +

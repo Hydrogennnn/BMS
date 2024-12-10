@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class LendRecord  {
     /**
      * 借阅ID
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 读者id

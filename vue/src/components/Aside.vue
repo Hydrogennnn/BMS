@@ -67,16 +67,13 @@
       </svg>
       <span>借阅信息</span>
     </el-menu-item>
+
     <el-menu-item index="/news" v-if="user.role == 2">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconlend-record "></use>
-      </svg>
+      <el-icon><Smoking /></el-icon>
       <span>资源动态</span>
     </el-menu-item>
     <el-menu-item index="/notice" v-if="user.role == 2">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#iconlend-record "></use>
-      </svg>
+      <el-icon><Calendar /></el-icon>
       <span>最新公告</span>
     </el-menu-item>
     <el-menu-item index="/newsmanage" v-if="user.role == 1">

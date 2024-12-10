@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.commom.Result;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BookInstance;
+import com.example.demo.entity.News;
 import com.example.demo.entity.Notice;
 import com.example.demo.mapper.BookMapper;
 import com.example.demo.mapper.CommentMapper;
@@ -100,21 +101,12 @@ public class BookController {
 //        return Result.success(book);
 //    }
 
-    @GetMapping("/detail/{bookId}")
-    public Result<?> getBookById(@PathVariable Long bookId) {
-        // 使用 bookMapper 查询图书信息
-        Book book = bookMapper.selectById(bookId);
-
-        // 打印查询到的图书信息
-        System.out.println("查询到的图书信息: " + book);
-
-        if (book == null) {
-            // 如果没有找到对应的图书，返回失败的结果
-            return Result.error("403", "图书未找到");
-        }
-
-        // 返回查询到的图书信息
-        return Result.success(book);
-    }
+//    @GetMapping("/{bookId}")
+//    public Result<?> getBookById(@PathVariable Long bookId) {
+//        LambdaQueryWrapper<Book> wrappers = Wrappers.<Book>lambdaQuery();
+//        wrappers.eq(Book::getId, bookId);
+//        List<Book> bookList = bookMapper.selectList(wrappers);
+//        return Result.success(bookList);
+//    }
 
 }

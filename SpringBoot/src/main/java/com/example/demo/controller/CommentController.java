@@ -11,6 +11,7 @@ import com.example.demo.mapper.CommentMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,18 @@ public class CommentController {
 
     @PostMapping
     public Result<?> save(@RequestBody Comment comment){
+        commentMapper.insert(comment);
+        return Result.success();
+    }
+    @PostMapping("/pub")
+    public Result<?> PublishComment(@RequestParam(required = true) Long userId,
+                                    @RequestParam(required = true) String content,
+                                    @RequestParam(required = true) Long bookId){
+        Comment comment = new Comment();
+        comment.setBookId(bookId);
+        comment.setContent(content);
+        comment.setReaderId(userId);
+        comment.setTime(LocalDateTime.now());
         commentMapper.insert(comment);
         return Result.success();
     }

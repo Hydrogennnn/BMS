@@ -31,7 +31,7 @@ public class Comment{
      * 评论时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date time;
+    private LocalDateTime time;
     /**
      * 评论内容
      */
@@ -54,11 +54,11 @@ public class Comment{
         this.id = id;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

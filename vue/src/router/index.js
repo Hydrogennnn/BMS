@@ -63,16 +63,16 @@ const routes = [
         name: 'Notice',
         component: () => import("@/views/Notice")
       },
-        {
-            path: '/book',
-            name: 'Book',
-            component: () => import("@/views/Book")
-        },
-        {
-            path: '/bookDetail',
-            name: 'BookDetail',
-            component: () => import("@/views/BookDetail")
-        },
+    {
+        path: '/book',
+        name: 'Book',
+        component: () => import("@/views/Book")
+    },
+    {
+        path: '/bookDetail/:id',
+        name: 'BookDetail',
+        component: () => import("@/views/BookDetail")
+    },
     {
         path: 'noticemanage',
         name: 'NoticeManage',

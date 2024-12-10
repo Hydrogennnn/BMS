@@ -54,6 +54,7 @@
           <el-tag v-if="scope.row.status == 0" type="warning">未归还</el-tag>
           <el-tag v-else type="success">已归还</el-tag>
         </template>
+
       </el-table-column>
       <el-table-column v-if="user.role === 1" label="操作" width="230px">
         <template v-slot="scope">
@@ -173,7 +174,6 @@ export default defineComponent({
             search3: this.search3
           }
         }).then(res =>{
-          console.log(res)
           this.tableData = res.data.records
           this.total = res.data.total
         })
@@ -190,7 +190,6 @@ export default defineComponent({
             'content-type' : 'application/x-www-form-urlencoded'
           }
         }).then(res =>{
-          console.log(res)
           this.tableData = res.data.records
           this.total = res.data.total
         })
@@ -219,7 +218,7 @@ export default defineComponent({
       //   })
       // }
       console.log(this.form)
-      request.put("/LendRecord/return", this.form).then(res => {
+      request.put("/LendRecord", this.form).then(res => {
         console.log(res)
         if (res.code == 0) {
           ElMessage({

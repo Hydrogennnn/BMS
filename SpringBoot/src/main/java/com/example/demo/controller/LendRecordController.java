@@ -25,7 +25,6 @@ import java.util.List;
 public class LendRecordController {
     @Resource
     LendRecordMapper lendRecordMapper;
-    BookInstanceMapper bookInstanceMapper;
 
     @PostMapping
     public Result<?> save(@RequestBody LendRecord lendRecord){
@@ -34,29 +33,30 @@ public class LendRecordController {
     }
     @PutMapping
     public  Result<?> update(@RequestBody LendRecord lendRecord){
-        lendRecordMapper.updateById(lendRecord);
-        return Result.success();
-    }
-    @PutMapping("/return")
-    public  Result<?> BookReturn(@RequestBody LendRecord lendRecord){
-        if(lendRecord.getStatus()=="0"){
-            lendRecord.setReturnTime(null);
-        }
+        System.out.println("更新");
         lendRecordMapper.updateById(lendRecord);
         lendRecordMapper.UpdBookInstanceStatus(lendRecord.getBookinstanceId(), lendRecord.getStatus());
         return Result.success();
     }
     @PostMapping("/borrow")
-    public  Result<?> BookBorrow(@RequestBody BookInstance bookInstance, Long user_id){
+    public  Result<?> BookBorrow(@RequestBody BookInstance bookInstance, Long userId){
         LendRecord lendRecord = new LendRecord();
         lendRecord.setLendTime(LocalDateTime.now());
         lendRecord.setBookinstanceId(bookInstance.getId());
         lendRecord.setStatus("0");
         lendRecord.setDeadline(LocalDateTime.now().plusMonths(1));
-        lendRecord.setReaderId(user_id);
-
+        lendRecord.setReaderId(userId);
+        System.out.println("Borrower:"+lendRecord.getReaderId());
         lendRecordMapper.insert(lendRecord);
         lendRecordMapper.UpdBookInstanceStatus(lendRecord.getBookinstanceId(), lendRecord.getStatus());
+        return Result.success();
+    }
+    @PutMapping("/return")
+    public  Result<?> BookReturn(@RequestBody LendRecord lendRecord){
+        lendRecord.setStatus("1");
+        Long bookinstanceId = lendRecord.getBookinstanceId();
+        lendRecordMapper.updateById(lendRecord);
+        lendRecordMapper.UpdBookInstanceStatus(bookinstanceId, lendRecord.getStatus());
         return Result.success();
     }
 
@@ -108,6 +108,7 @@ public class LendRecordController {
 
         // 补充图书信息
         for (LendRecord lendRecord : lendRecordPage.getRecords()) {
+            System.out.println("/reader:"+lendRecord.getBookinstanceId());
             String bookName = lendRecordMapper.getBookNameByInstanceId(lendRecord.getBookinstanceId());
             String barcode = lendRecordMapper.getBookBarcodeByInstanceId(lendRecord.getBookinstanceId());
             if (bookName != null) {

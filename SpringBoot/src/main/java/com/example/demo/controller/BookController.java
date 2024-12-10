@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-
+/**
+ * Apifox Helper 演示
+ */
 @RestController
+//@RequestMapping("/book")
 @RequestMapping("/book")
 public class BookController {
     @Resource
@@ -64,4 +67,42 @@ public class BookController {
 
         return Result.success(bookPage);
     }
+
+    /**
+     *获取图书详情
+     */
+//    @GetMapping("/detail")
+//    public Result<?> getBookById(@PathVariable Long id) {
+//        // 使用 bookMapper 查询图书信息
+//        Book book = bookMapper.selectById(id);
+//
+//        System.out.println("查询到的图书信息: " + book);
+//        if (book == null) {
+//            // 如果没有找到对应的图书，返回失败的结果
+//            // 打印查询到的图书信息
+//            System.out.println("查询到: " + book);
+//            return Result.error(String.valueOf(404),"图书未找到");
+//        }
+//
+//        // 返回查询到的图书信息
+//        return Result.success(book);
+//    }
+
+    @GetMapping("/detail/{bookId}")
+    public Result<?> getBookById(@PathVariable Long bookId) {
+        // 使用 bookMapper 查询图书信息
+        Book book = bookMapper.selectById(bookId);
+
+        // 打印查询到的图书信息
+        System.out.println("查询到的图书信息: " + book);
+
+        if (book == null) {
+            // 如果没有找到对应的图书，返回失败的结果
+            return Result.error("403", "图书未找到");
+        }
+
+        // 返回查询到的图书信息
+        return Result.success(book);
+    }
+
 }

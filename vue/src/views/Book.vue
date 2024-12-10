@@ -93,8 +93,8 @@ export default {
       }).format(new Date(date));
     };
 
-    const gotoDetail=(bookId)=> {
-      router.push({ path: '/bookDetail', query: { id: bookId } }); // 使用查询参数传递 bookId
+    const gotoDetail=(id)=> {
+      router.push({ path: '/bookDetail', query: { id: id } }); // 使用查询参数传递 bookId
     };
 
     onMounted(fetchBook);

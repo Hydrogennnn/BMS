@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.commom.Result;
+import com.example.demo.entity.News;
 import com.example.demo.entity.Notice;
 import com.example.demo.entity.NoticePublish;
 import com.example.demo.mapper.NoticeMapper;
@@ -19,12 +20,9 @@ import java.util.List;
 public class NoticeController {
     @Resource
     NoticeMapper noticeMapper;
-//   NoticePublishMapper noticePublishMapper;
     @PostMapping
-    public Result<?> save(@RequestBody Notice notice,
-                          @RequestBody NoticePublish noticePublish){
+    public Result<?> save(@RequestBody Notice notice){
         noticeMapper.insert(notice);
- //       noticePublishMapper.insert(noticePublish);
         return Result.success();
     }
     @PutMapping
@@ -44,6 +42,16 @@ public class NoticeController {
         noticeMapper.deleteById(id);
         return Result.success();
     }
+    @GetMapping("/{id}")
+    public Result<?> getANotice(@PathVariable Long id)
+    {
+
+        LambdaQueryWrapper<Notice> wrappers = Wrappers.<Notice>lambdaQuery();
+        wrappers.eq(Notice::getId, id);
+        List<Notice> noticeList = noticeMapper.selectList(wrappers);
+
+        return Result.success(noticeList);
+    }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
@@ -59,7 +67,6 @@ public class NoticeController {
             wrappers.like(Notice::getId, search2);
         }
         Page<Notice> noticePage =noticeMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
-
     
         return Result.success(noticePage);
     }

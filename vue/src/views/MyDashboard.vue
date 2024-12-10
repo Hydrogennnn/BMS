@@ -105,7 +105,42 @@ export default {
     }
   },
   created() {
-
+    request.get("/news",{
+      params:{
+        pageNum: 1,
+        pageSize: 5,
+      }
+    }).then(res=>{
+      if(res.code == 0){
+        this.news = res.data.records;
+        this.news.forEach(item=>{
+          const date = new Date(item.time);
+          item.time = date.toISOString().split('T')[0]; // 获取 ISO 格式的日期部分 yyyy-MM-dd
+        })
+      }
+      else {
+        ElMessage.error(res.msg);
+      }
+    })
+    request.get("/notice",{
+      params:{
+        pageNum: 1,
+        pageSize: 5,
+      }
+    }).then(res=>{
+      if(res.code == 0){
+        this.noticelist = res.data.records;
+        this.noticelist.forEach(
+            item=>{
+              const date = new Date(item.time);
+              item.time = date.toISOString().split('T')[0]; // 获取 ISO 格式的日期部分 yyyy-MM-dd
+            }
+        )
+      }
+      else{
+        ElMessage.error(res.msg);
+      }
+    })
   },
   mounted() {
     this.circleTimer()
@@ -190,7 +225,7 @@ export default {
   methods: {
     getNewsUrl(newsId) {
       // 根据新闻ID生成对应的URL，这里以假设的路由为例
-      return `/news/${newsId}`;
+      return `/newsDetails/${newsId}`;
     },
 
     viewNotice(notice) {
@@ -229,8 +264,13 @@ export default {
   /* 调整时间的样式和位置 */
   position: absolute; /* 使用绝对定位 */
   right: 0; /* 将其放置在父容器的右侧 */
-  top: 50%; /* 垂直居中，但需要进一步调整 */
-  transform: translateY(-50%); /* 通过平移来真正实现垂直居中 */
+  margin-bottom: 15px;
+  margin-left: 10px; /* 保持与时间左侧的间距 */
+}
+.news-time {
+
+  right: 0; /* 将其放置在父容器的右侧 */
+  margin-bottom: 20px;
   margin-left: 10px; /* 保持与时间左侧的间距 */
 }
 .notice-divider {
@@ -271,6 +311,7 @@ export default {
 
 .time {
   text-align: right; /* 使时间戳右对齐 */
+  margin-bottom: 15px;
 }
 .showcase-container {
   display: flex; /* 使用 flex 布局 */
@@ -278,6 +319,7 @@ export default {
 }
 
 .left-panel {
+  height: 800px;
   flex: 1; /* 左边部分占据一半的空间（或者根据需要调整比例） */
   background-color: #ffffff; /* 背景颜色，可以根据需要更改 */
   padding: 20px; /* 内边距，可以根据需要调整 */
@@ -285,6 +327,7 @@ export default {
 }
 
 .right-panel {
+  height: 800px;
   flex: 1; /* 右边部分也占据一半的空间 */
   display: flex; /* 右边部分再使用 flex 布局，以便分为上下两部分 */
   flex-direction: column; /* 垂直方向排列子元素 */

@@ -16,12 +16,11 @@
       </el-table>
     </el-card>
 
-
     <!-- 显示详情 -->
     <el-card v-if="selectedNews" style="width: 80%; margin: 40px auto;">
       <h3 class="detail-title">{{ selectedNews.title }}</h3>
       <p class="detail-time">{{ formatDate(selectedNews.time) }}</p>
-      <p class="detail-content">{{ selectedNews.content }}</p>
+      <div v-html="selectedNews.content"></div>
       <div class="button-container">
         <el-button @click="closeDetail">关闭</el-button>
       </div>
@@ -33,12 +32,14 @@
 import { ref, onMounted } from 'vue';
 import request from '@/utils/request';
 import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';  // 导入 useRouter 钩子
 
 export default {
   name: "LatestNews",
   setup() {
     const newsList = ref([]);
     const selectedNews = ref(null);
+    const router = useRouter(); // 使用 useRouter 获取路由实例
 
     // 获取最新新闻
     const fetchNews = async () => {
@@ -53,7 +54,8 @@ export default {
 
     // 显示详情
     const showDetail = (news) => {
-      selectedNews.value = news;
+      // 使用 router.push 跳转到新闻详情页面
+      router.push({ name: 'NewsDetails' , params: {id: news.id}});
     };
 
     // 关闭详情
@@ -74,6 +76,7 @@ export default {
     };
 
     onMounted(fetchNews);
+
     return {
       newsList,
       selectedNews,
@@ -98,6 +101,8 @@ export default {
 
 .detail-content {
   margin-top: 20px;
+  text-indent: 2em;
+  line-height: 2;
 }
 
 .button-container {

@@ -33,12 +33,14 @@
 import { ref, onMounted } from 'vue';
 import request from '@/utils/request';
 import { ElMessage } from 'element-plus';
+import {useRouter} from "vue-router/dist/vue-router";
 
 export default {
   name: "LatestNotice",
   setup() {
     const noticeList = ref([]);
     const selectedNotice = ref(null);
+    const router = useRouter(); // 使用 useRouter 获取路由实例
 
     // 获取最新公告
     const fetchNotice = async () => {
@@ -53,7 +55,7 @@ export default {
 
     // 显示公告详情
     const showDetail = (notice) => {
-      selectedNotice.value = notice;
+      router.push({ name: 'NoticeDetails' , params: {id: notice.id}});
     };
 
     // 关闭公告详情
@@ -99,6 +101,8 @@ export default {
 
 .detail-content {
   margin-top: 20px;
+  text-indent: 2em;
+
 }
 
 .button-container {

@@ -54,21 +54,44 @@ const routes = [
         component: () => import("@/views/News")
       },
       {
+          path: 'newsmanage',
+          name: 'NewsManage',
+          component: () => import("@/views/NewsManage")
+      },
+        {
         path: 'notice',
         name: 'Notice',
         component: () => import("@/views/Notice")
       },
-      {
-        path: '/book',
-        name: 'Book',
-        component: () => import("@/views/Book")
-      },
-      {
-        path: '/bookDetail',
-        name: 'BookDetail',
-        component: () => import("@/views/BookDetail")
-      },
-
+        {
+            path: '/book',
+            name: 'Book',
+            component: () => import("@/views/Book")
+        },
+        {
+            path: '/bookDetail',
+            name: 'BookDetail',
+            component: () => import("@/views/BookDetail")
+        },
+    {
+        path: 'noticemanage',
+        name: 'NoticeManage',
+        component: () => import("@/views/NoticeManage")
+    },
+    {
+        path: 'newsDetails/:id',
+        name: 'NewsDetails',
+        component: () => import("@/views/newDetails")
+    },
+    {
+        path: 'noticeDetails/:id',
+        name: 'NoticeDetails',
+        component: () => import("@/views/NoticeDetails")
+    },{
+        path: 'commentmanage',
+        name: 'CommentManage',
+        component: () => import("@/views/CommentManage")
+    }
     ]
   },
   {
@@ -81,6 +104,7 @@ const routes = [
     name: 'Register',
     component: () => import("@/views/Register")
   },
+
 
 ]
 

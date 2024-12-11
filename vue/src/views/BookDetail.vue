@@ -135,7 +135,7 @@ export default {
     async fetchBookInstances(bookId) {
       try {
         const response = await request.get("/bookinstance", {
-          params: { search1 : bookId },
+          params: { bookId },
         });
         if (response.data) {
           this.bookInstances = response.data.records;
@@ -167,11 +167,8 @@ export default {
             userId: this.userId,
           }
         });
-        if (response.data.success) {
+        console.log(response);
           alert(`成功借阅《${this.book.name}》`);
-        } else {
-          alert("借阅失败，请稍后再试。");
-        }
       } catch (error) {
         console.error("借阅图书失败:", error);
         alert("借阅失败，请稍后再试。");

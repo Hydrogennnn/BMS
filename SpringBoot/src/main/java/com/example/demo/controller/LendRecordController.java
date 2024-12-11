@@ -73,10 +73,17 @@ public class LendRecordController {
     }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize)
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam(defaultValue = "") String search1,
+                              @RequestParam(defaultValue = "") String search2)
     {
         LambdaQueryWrapper<LendRecord> wrappers = Wrappers.<LendRecord>lambdaQuery();
-
+        if(StringUtils.isNotBlank(search1)){
+            wrappers.like(LendRecord::getBookinstanceId, search1);
+        }
+        if(StringUtils.isNotBlank(search2)){
+            wrappers.like(LendRecord::getReaderId, search2);
+        }
 
         Page<LendRecord> lendRecordPage =lendRecordMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
 

@@ -25,7 +25,7 @@
     </div>
     <!-- 按钮-->
     <div style="margin: 10px 0;" >
-      <el-button type="primary" @click = "add" v-if="user.role == 1">发布新闻</el-button>
+      <el-button type="primary" @click = "add" v-if="user.role == 1">新增评论</el-button>
       <el-popconfirm title="确认删除?" @confirm="deleteBatch" v-if="user.role == 1">
         <template #reference>
           <el-button type="danger" size="mini" >批量删除</el-button>
@@ -66,7 +66,7 @@
       >
       </el-pagination>
 
-      <el-dialog v-model="dialogVisible" title="新闻发布" width="30%">
+      <el-dialog v-model="dialogVisible" title="新增评论" width="30%">
         <el-form :model="form" label-width="120px">
           <el-form-item label="发布时间" v-model="form.time">
             <div>
@@ -92,7 +92,7 @@
         </template>
       </el-dialog>
 
-      <el-dialog v-model="dialogVisible2" title="修改新闻信息" width="30%">
+      <el-dialog v-model="dialogVisible2" title="修改评论信息" width="30%">
         <el-form :model="form" label-width="120px">
 
           <el-form-item label="发布时间" v-model="form.time">
@@ -161,7 +161,8 @@ export default {
         params:{
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search1: this.search1
+          book_id: this.search1,
+          user_id: this.search2,
         }
       }).then(res =>{
         console.log(res)

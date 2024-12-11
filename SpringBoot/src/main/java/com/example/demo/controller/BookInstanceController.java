@@ -40,26 +40,31 @@ public class BookInstanceController {
         return Result.success();
     }
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id){
+    public Result<?> delete(@PathVariable Long id) {
         bookInstanceMapper.deleteById(id);
         return Result.success();
     }
+//    @GetMapping("/abook")
+//    public Result<?> getByBookId(@RequestParam Long bookId){
+//        LambdaQueryWrapper<BookInstance> wrappers = Wrappers.<BookInstance>lambdaQuery();
+//        wrappers.eq(BookInstance::getBookId, bookId);
+//        List<BookInstance> bookInstances = bookInstanceMapper.selectList(wrappers);
+//    }
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search1)
+                              @RequestParam(defaultValue = "0") Long bookId)
     {
         LambdaQueryWrapper<BookInstance> wrappers = Wrappers.<BookInstance>lambdaQuery();
-        if(StringUtils.isNotBlank(search1)){
-            wrappers.like(BookInstance::getBookId,search1);
+        if(bookId!=0){
+            wrappers.eq(BookInstance::getBookId, bookId);
         }
 
-        Page<BookInstance> bookInstancePage =bookInstanceMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
+        Page<BookInstance> bookInstancePage = bookInstanceMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);
 
         for (BookInstance bookInstance : bookInstancePage.getRecords()) {
             // 根据 book_id 查询 book_name
             bookInstance.setBookName(bookInstanceMapper.getBookNameByBookId(bookInstance.getBookId()));  // 设置 bookName
-
         }
         return Result.success(bookInstancePage);
     }

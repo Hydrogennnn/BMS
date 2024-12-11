@@ -1,6 +1,33 @@
 <template>
-  <div>
+  <div class="home">
+
     <el-card style="width: 80%; margin: 40px auto;">
+      <div style="margin: 10px 0;">
+        <el-form inline="true" size="small">
+          <el-form-item label="图书编号" >
+            <el-input v-model="search1" placeholder="请输入图书编号"  clearable>
+              <template #prefix><el-icon class="el-input__icon"><search/></el-icon></template>
+            </el-input>
+          </el-form-item >
+          <el-form-item label="图书名称" >
+            <el-input v-model="search2" placeholder="请输入图书名称"  clearable>
+              <template #prefix><el-icon class="el-input__icon"><search /></el-icon></template>
+            </el-input>
+          </el-form-item >
+          <el-form-item label="作者" >
+            <el-input v-model="search3" placeholder="请输入作者"  clearable>
+              <template #prefix><el-icon class="el-input__icon"><search /></el-icon></template>
+            </el-input>
+          </el-form-item >
+          <el-form-item>
+            <el-button type="primary" style="margin-left: 1%" @click="fetchBook" size="mini" >
+              <svg-icon iconClass="search"/>查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button size="mini"  type="danger" @click="clear">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
       <h2 style="padding: 30px">馆藏书籍</h2>
       <!-- 添加外层容器 -->
       <div class="book-grid">
@@ -51,6 +78,9 @@ export default {
       total: 10,
       bookList: [],
       selectedBook: null,
+      search1: '',
+      search2: '',
+      search3: '',
     };
   },
   methods: {
@@ -61,6 +91,9 @@ export default {
           params: {
             pageNum: this.currentPage,
             pageSize: this.pageSize,
+            search1: this.search1,
+            search2: this.search2,
+            search3: this.search3,
           }
         });
         this.bookList = response.data.records;
@@ -74,6 +107,11 @@ export default {
     handleSizeChange(PageSize) {
       this.pageSize = PageSize;
       this.fetchBook();
+    },
+    clear(){
+      this.search1 = '';
+      this.search2 = '';
+      this.search3 = '';
     },
     // 处理当前页变化
     handleCurrentChange(PageNum) {

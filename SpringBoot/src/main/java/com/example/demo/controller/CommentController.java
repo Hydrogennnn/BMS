@@ -66,9 +66,13 @@ public class CommentController {
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "0") Long user_id,
-                              @RequestParam(defaultValue = "0") Long book_id){
+                              @RequestParam(defaultValue = "") Long user_id,
+                              @RequestParam(defaultValue = "") Long book_id){
         LambdaQueryWrapper<Comment> wrappers = Wrappers.<Comment>lambdaQuery();
+//        if(StringUtils.isNotBlank(user_id)){
+//            wrappers.eq(Comment::getReaderId, user_id);
+//        }
+//        if(StringUtils.isNotBlank(book_id))
         if(user_id!=0)wrappers.eq(Comment::getReaderId, user_id);
         if(book_id!=0)wrappers.eq(Comment::getBookId, book_id);
         Page<Comment> commentPage =commentMapper.selectPage(new Page<>(pageNum,pageSize), wrappers);

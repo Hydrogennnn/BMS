@@ -171,7 +171,7 @@ export default {
         params:{
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          search1: this.search1
+          bookId: this.search1
         }
       }).then(res =>{
         console.log(res)

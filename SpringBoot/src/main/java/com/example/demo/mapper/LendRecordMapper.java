@@ -4,7 +4,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.LendRecord;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.LendRecord;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface LendRecordMapper extends BaseMapper<LendRecord> {
     @Select("SELECT DISTINCT b.name " +
@@ -26,4 +32,7 @@ public interface LendRecordMapper extends BaseMapper<LendRecord> {
 
     @Update("update book_instance b set b.status = #{status} where id = #{bookInstanceId}")
     public void UpdBookInstanceStatus (Long bookInstanceId, String status);
+
+
 }
+

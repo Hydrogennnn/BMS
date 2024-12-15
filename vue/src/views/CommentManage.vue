@@ -70,7 +70,7 @@
         <el-form :model="form" label-width="120px">
           <el-form-item label="发布时间" v-model="form.time">
             <div>
-              <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" style="width: 80%" clearable v-model="form.time" :disabled="true"></el-date-picker>
+              <el-date-picker value-format="yyyy-MM-dd  " type="datetime" style="width: 80%" clearable v-model="form.time" :disabled="true"></el-date-picker>
             </div>
           </el-form-item>
           <el-form-item label="内容">

@@ -4,8 +4,8 @@
     <!-- 搜索-->
     <div style="margin: 10px 0;">
       <el-form inline="true" size="small">
-        <el-form-item label="图书编号" >
-          <el-input v-model="search1" placeholder="请输入图书编号"  clearable>
+        <el-form-item label="ISBN" >
+          <el-input v-model="search1" placeholder="请输入ISBN"  clearable>
             <template #prefix><el-icon class="el-input__icon"><search/></el-icon></template>
           </el-input>
         </el-form-item >
@@ -58,7 +58,7 @@
                        width="55">
       </el-table-column>
       <el-table-column prop="id" label="图书ID" sortable/>
-      <el-table-column prop="isbn" label="图书编号" sortable />
+      <el-table-column prop="isbn" label="ISBN" sortable />
       <el-table-column prop="name" label="图书名称" />
       <el-table-column prop="price" label="价格" sortable/>
       <el-table-column prop="author" label="作者" />

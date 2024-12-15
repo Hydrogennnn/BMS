@@ -4,8 +4,8 @@
     <el-card style="width: 80%; margin: 40px auto;">
       <div style="margin: 10px 0;">
         <el-form inline="true" size="small">
-          <el-form-item label="图书编号" >
-            <el-input v-model="search1" placeholder="请输入图书编号"  clearable>
+          <el-form-item label="ISBN" >
+            <el-input v-model="search1" placeholder="请输入ISBN"  clearable>
               <template #prefix><el-icon class="el-input__icon"><search/></el-icon></template>
             </el-input>
           </el-form-item >

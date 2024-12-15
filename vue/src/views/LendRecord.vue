@@ -9,8 +9,13 @@
             <template #prefix><el-icon class="el-input__icon"><search/></el-icon></template>
           </el-input>
         </el-form-item >
-        <el-form-item label="读者编号" >
-          <el-input v-model="search2" placeholder="请输入读者编号"  clearable>
+        <el-form-item v-if="user.role ==1" label="读者编号" >
+          <el-input v-model="search2" v-if="user.role ==1" placeholder="请输入读者编号"  clearable>
+            <template #prefix><el-icon class="el-input__icon"><search /></el-icon></template>
+          </el-input>
+        </el-form-item >
+        <el-form-item label="图书名称" >
+          <el-input v-model="search3" placeholder="请输入图书名称"  clearable>
             <template #prefix><el-icon class="el-input__icon"><search /></el-icon></template>
           </el-input>
         </el-form-item >
@@ -166,6 +171,7 @@ export default defineComponent({
             pageSize: this.pageSize,
             search1: this.search1,
             search2: this.search2,
+            search3: this.search3,
           }
         }).then(res =>{
           this.tableData = res.data.records
@@ -177,7 +183,7 @@ export default defineComponent({
           params:{
             readerId: user.id,
             pageNum: this.currentPage,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
           },
           //  新增content-type头部属性
           heads : {
